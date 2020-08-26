@@ -25,4 +25,4 @@ Name the shortcut something obvious (Auto-Restart Dead Matter Server)
 Run the shortcut and PowerShell should open and begin installing the Dead Matter Dedicated Server, or checking for updates it if already installed.  Once complete it will automatically launch the Dead Matter Dedicated Server.
 
 
-If the server is shutdown or crashes, the script will automatically check for updates again and then restart the server.
+If the server is shutdown or crashes, the script will automatically check for updates  and restart the server.
