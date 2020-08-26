@@ -2,6 +2,7 @@
 This is a Powershell script that installs, updates, launches and manages a Dead Matter Dedicated Server.
 
 # Prerequisites 
+* You must have a Dead Matter key tied to your Steam account
 * You must have SteamCMD installed - download from here https://developer.valvesoftware.com/wiki/SteamCMD#Windows
 * You must enable Remote Signed PowerShell scripts
   * Open Windows Powershell with "Run as Administrator" Option
