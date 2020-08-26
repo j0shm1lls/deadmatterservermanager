@@ -12,7 +12,7 @@ This is a Powershell script that installs, updates, launches and manages a Dead 
 You will have to edit the script to include:
 * your Steam User Name
 * you Steam Password
-* Path to SteamCMD.exe (this assumes C:\SteamCMD\)
+* Path to SteamCMD.exe (this assumes c:\SteamCMD\steamcmd.exe)
 * Path to the Dead Matter Dedicated Server Installation (this it assumes the default Steam install directory)
 
 # Launching the Server Manager
