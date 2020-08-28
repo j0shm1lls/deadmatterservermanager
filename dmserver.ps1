@@ -4,6 +4,9 @@ $username = 'SteamUserName'
 #Steam Password
 $pwd = 'SteamPassword'
 
+#Maximum Memory (in GB) you want the DM Server to use - do not set lower than 11gb (20-25 is what I would recommend)
+$MaxMem = '25'
+
 #path to SteamCMD.exe install
 $SteamCMD = 'c:\SteamCMD\steamcmd.exe'
 
@@ -53,13 +56,13 @@ while (Get-Process $P -ErrorAction SilentlyContinue){
 Do
 {
 #Calculating and displaying DM Server Pageable Memory Use in GB
-write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Pageable Memory...     "
+write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Memory...     "
 $proc = Get-Process $p -ErrorAction SilentlyContinue
 start-sleep -s 2
-} While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt 25)
-#Killing DM Server if Pageable Memory use exceeds 25GB
+} While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt $MaxMem)
+#Killing DM Server if Pageable Memory use exceeds $MaxMem
 kill -processname $p -ErrorAction SilentlyContinue}
-write-host "`n`n Dead Matter Dedicated Server exceeded 25GB of Pageable Memory Use (and was killed) or the server was shut down, restarting...`n" -ForegroundColor Red
+write-host "`n`n Dead Matter Server exceeded $MaxMem GB of Memory Use or the server was shut down, restarting...`n" -ForegroundColor Red
 start-sleep -s 2
 Select-String -Path "$DMDediPath\deadmatter\Saved\Logs\deadmatter.log" -Pattern 'LogCore'-AllMatches | Foreach {$_.Line}
 write-host "`n`n Server closed at: $(Get-Date)`n" -ForeGroundColor White
