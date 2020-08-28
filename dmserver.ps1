@@ -56,7 +56,7 @@ while (Get-Process $P -ErrorAction SilentlyContinue){
 Do
 {
 #Calculating and displaying DM Server Pageable Memory Use in GB
-write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Memory...     "
+write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Memory...  "
 $proc = Get-Process $p -ErrorAction SilentlyContinue
 start-sleep -s 2
 } While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt $MaxMem)
