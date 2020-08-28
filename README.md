@@ -1,7 +1,7 @@
 # Dead Matter Server Manager
 This is a Powershell script that installs, updates, launches and manages a Dead Matter Dedicated Server.
 
-If Pageable Memory use exceeds 25GB, a kill signal is sent to the server and it is restarted.
+If Pageable Memory use exceeds 25GB (configurable by the end user), a kill signal is sent to the server and it is restarted.
 
 # Prerequisites 
 * You must have a Dead Matter key tied to your Steam account
