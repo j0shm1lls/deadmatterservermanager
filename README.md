@@ -17,6 +17,7 @@ You will have to edit the script to include:
 * you Steam Password
 * Path to SteamCMD.exe (this assumes c:\SteamCMD\steamcmd.exe)
 * Path to the Dead Matter Dedicated Server Installation (this it assumes the default Steam install directory)
+* Maximum Memory usage (in GB) can be adjusted - default is 25GB
 
 # Launching the Server Manager
 Create a new shortcut to PowerShell with the -file arg followed by the path to the script
