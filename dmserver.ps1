@@ -52,14 +52,14 @@ $p = "deadmatterserver-win64-test"
 while (Get-Process $P -ErrorAction SilentlyContinue){
 Do
 {
-#Calculating and displaying DM Server Ram Use in GB
-write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty WS)/1Gb),2))"GB of RAM...     "
+#Calculating and displaying DM Server Pageable Memory Use in GB
+write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Pageable Memory...     "
 $proc = Get-Process $p -ErrorAction SilentlyContinue
 start-sleep -s 2
-} While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.WS/1Gb) -lt 25)
-#Killing DM Server if RAM use exceeds 25GB
+} While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt 25)
+#Killing DM Server if Pageable Memory use exceeds 25GB
 kill -processname $p -ErrorAction SilentlyContinue}
-write-host "`n`n Dead Matter Dedicated Server exceeded 25GB of RAM Use (and was killed) or the server was shut down, restarting...`n" -ForegroundColor Red
+write-host "`n`n Dead Matter Dedicated Server exceeded 25GB of Pageable Memory Use (and was killed) or the server was shut down, restarting...`n" -ForegroundColor Red
 start-sleep -s 2
 Select-String -Path "$DMDediPath\deadmatter\Saved\Logs\deadmatter.log" -Pattern 'LogCore'-AllMatches | Foreach {$_.Line}
 write-host "`n`n Server closed at: $(Get-Date)`n" -ForeGroundColor White
