@@ -1,5 +1,6 @@
 # Dead Matter Server Manager
 This is a Powershell script that installs, updates, launches and manages a Dead Matter Dedicated Server.
+
 If RAM use exceeds 25GB, a kill signal is sent to the server and it is restarted.
 
 # Prerequisites 
