@@ -1,5 +1,5 @@
 ﻿#Steam Username
-$username = 'SteamUsername'
+$username = 'SteamUserName'
 
 #Steam Password
 $pwd = 'SteamPassword'
@@ -82,7 +82,7 @@ start-sleep -s 2
 #Launching DM Server
 Start-Process -FilePath "$DMDediPath\deadmatterServer.exe" -ArgumentList "-USEALLAVAILABLECORES -log"
 start-sleep -s 2
-$p = "deadmatterserver-win64-test"
+$p = "deadmatterserver-win64-shipping"
 while (Get-Process $P -ErrorAction SilentlyContinue){
 Do
 {
