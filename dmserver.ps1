@@ -1,5 +1,5 @@
 ﻿#Steam Username
-$username = 'SteamUserName'
+$username = 'SteamUsername'
 
 #Steam Password
 $pwd = 'SteamPassword'
@@ -47,8 +47,39 @@ $updatedm = Get-Content $SteamCMDLog -Raw
         $updatedm = $null
 }}
 Start-Sleep -s 3
+#Fancy animation
+$pretext = "`(o_O`)`=`╤`─`─"
+$date = get-date
+$text = "      Dead Matter Dedicated Server launched at $date     [¬º-°]¬"
+$text2 = "      Dead Matter Dedicated Server launched at $date     [¬x-X]¬"
+$Array = $text2.ToCharArray()
+$idx = 0
+$scroll = " $pretext$text"
+write-host "`n`n`r $pretext $text  " -NoNewline -ForegroundColor White
+start-sleep -s 2
+write-host "`r $pretext " -NoNewline -ForegroundColor White
+foreach ($_ in $Array){
+write-host "▬" -NoNewline -ForegroundColor Yellow
+start-sleep -milliseconds 5
+write-host `b -NoNewline -ForegroundColor White
+write-host $Array[$idx] -NoNewline -ForegroundColor White
+$idx++
+start-sleep -milliseconds 5}
+write-host "▓" -NoNewline -foregroundcolor Red
+start-sleep -milliseconds 100
+write-host "▓" -NoNewline -foregroundcolor Red
+start-sleep -milliseconds 100
+write-host "▒" -NoNewline -foregroundcolor Red
+start-sleep -milliseconds 100
+write-host "▒" -NoNewline -foregroundcolor Red
+start-sleep -milliseconds 100
+write-host "░" -NoNewline -foregroundcolor Red
+start-sleep -milliseconds 100
+write-host "░`n`n" -foregroundcolor Red
+
+start-sleep -s 2
+
 #Launching DM Server
-write-host "`n `(o_O`)`=`╤`─`─ Dead Matter Dedicated Server launched at: $(Get-Date) `-`n" -ForeGroundColor White
 Start-Process -FilePath "$DMDediPath\deadmatterServer.exe" -ArgumentList "-USEALLAVAILABLECORES -log"
 start-sleep -s 2
 $p = "deadmatterserver-win64-test"
@@ -62,7 +93,7 @@ start-sleep -s 2
 } While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt $MaxMem)
 #Killing DM Server if Pageable Memory use exceeds $MaxMem
 kill -processname $p -ErrorAction SilentlyContinue}
-write-host "`n`n Dead Matter Server exceeded $MaxMem GB of Memory Use or the server was shut down, restarting...`n" -ForegroundColor Red
+write-host "`n`n Dead Matter Server exceeded set Max Memory Use or the server was shut down, restarting...`n" -ForegroundColor Red
 start-sleep -s 2
 Select-String -Path "$DMDediPath\deadmatter\Saved\Logs\deadmatter.log" -Pattern 'LogCore'-AllMatches | Foreach {$_.Line}
 write-host "`n`n Server closed at: $(Get-Date)`n" -ForeGroundColor White
