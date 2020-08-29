@@ -13,8 +13,8 @@ If Pageable Memory use exceeds 25GB (configurable by the end user), a kill signa
 
 # Edits that need to be made to the script
 You will have to edit the script to include:
-* your Steam User Name
-* you Steam Password
+* your Steam User Name (There is a version of the script that asks at runtime also)
+* you Steam Password (There is a version of the script that asks at runtime also)
 * Path to SteamCMD.exe (this assumes c:\SteamCMD\steamcmd.exe)
 * Path to the Dead Matter Dedicated Server Installation (this it assumes the default Steam install directory)
 * Maximum Memory usage (in GB) can be adjusted - default is 25GB
