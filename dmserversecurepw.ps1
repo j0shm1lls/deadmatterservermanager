@@ -7,7 +7,6 @@ $BSTR = `
     [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePassword)
 $pwd = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 
-
 #Maximum Memory (in GB) you want the DM Server to use - do not set lower than 11gb (20-25 is what I would recommend)
 $MaxMem = '25'
 
@@ -16,6 +15,9 @@ $SteamCMD = 'c:\SteamCMD\steamcmd.exe'
 
 #Path to DeadMatter Dedicated Server Installation
 $DMDediPath = "C:\Program Files (x86)\Steam\steamapps\common\Dead Matter Dedicated Server"
+
+#path to steam_appid.txt file to check if exists
+$steamappidpath = "$DMDediPath\deadmatter\Binaries\Win64\steam_appid.txt"
 
 #Dead Matter Dedicated Server Steam APP ID (you shouldn't have to change this)
 $AppID = '1110990'
@@ -26,6 +28,15 @@ $AppID = '1110990'
 write-host "`n Performing first boot check for SteamGuard...`n" -ForeGroundColor White
 Start-Process -FilePath $SteamCMD -ArgumentList ('+login',$username,$pwd,'+exit') -NoNewWindow -Wait 
 cls
+
+#checking if steam_appid.txt exists, if not, creating...
+if (Test-Path -Path $steamappidpath){
+write-host "steam_appid.txt exists, continuing..." -ForeGroundColor White
+}else{
+New-Item ($steamappidpath) -ItemType "File" -Value "575440"
+write-host "Steam_AppId.txt created successfully, continuing..."
+}
+
 #main loop
 while($true)
 {
