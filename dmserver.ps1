@@ -31,7 +31,8 @@ if (Test-Path -Path $steamappidpath){
 write-host "steam_appid.txt exists, continuing..." -ForeGroundColor White
 }else{
 New-Item ($steamappidpath) -ItemType "File" -Value "575440"
-write-host "Steam_AppId.txt created successfully, continuing..."}
+write-host "Steam_AppId.txt created successfully, continuing..."
+}
 
 #main loop
 while($true)
