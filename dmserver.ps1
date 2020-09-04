@@ -28,10 +28,10 @@ cls
 
 #checking if steam_appid.txt exists, if not, creating...
 if (Test-Path -Path $steamappidpath){
-write-host "steam_appid.txt exists, continuing..." -ForeGroundColor White
+write-host "`n steam_appid.txt exists, continuing..." -ForeGroundColor White
 }else{
 New-Item ($steamappidpath) -ItemType "File" -Value "575440"
-write-host "Steam_AppId.txt created successfully, continuing..."
+write-host "`n Steam_AppId.txt created successfully, continuing..."
 }
 
 #main loop
@@ -58,8 +58,9 @@ $updatedm = Get-Content $SteamCMDLog -Raw
         del $SteamCMDLog
         $updatedm = $null
 }}
-Start-Sleep -s 3
-#Fancy animation
+Start-Sleep -s 1
+
+#Fancy animation letting you know the DM Server is launching
 $pretext = "`(o_O`)`=`╤`─`─"
 $date = get-date
 $text = "      Dead Matter Dedicated Server launched at $date     [¬º-°]¬"
@@ -88,26 +89,53 @@ start-sleep -milliseconds 100
 write-host "░" -NoNewline -foregroundcolor Red
 start-sleep -milliseconds 100
 write-host "░`n`n" -foregroundcolor Red
-
 start-sleep -s 2
 
 #Launching DM Server
 Start-Process -FilePath "$DMDediPath\deadmatterServer.exe" -ArgumentList "-USEALLAVAILABLECORES -log"
 start-sleep -s 2
+
+#Calculating and displaying DM Server Pageable Memory Use in GB
+$shutdown = $null
 $p = "deadmatterserver-win64-shipping"
-while (Get-Process $P -ErrorAction SilentlyContinue){
+while (Get-Process $p -EA SilentlyContinue){
 Do
 {
-#Calculating and displaying DM Server Pageable Memory Use in GB
-write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -ErrorAction SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Memory...  "
-$proc = Get-Process $p -ErrorAction SilentlyContinue
+write-host -NoNewline "`r Dead Matter Dedicated Server is currently using:" $([math]::Round($(($DMRamUSE = Get-Process $P -EA SilentlyContinue | select -ExpandProperty PM)/1Gb),2))"GB of Memory...   "
+$proc = Get-Process $p -EA SilentlyContinue
 start-sleep -s 2
-} While ((Get-Process $P -ErrorAction SilentlyContinue) -and ($proc.PM/1Gb) -lt $MaxMem)
+} While ((Get-Process $p -EA SilentlyContinue) -and ($proc.PM/1Gb) -lt $MaxMem)
+
 #Killing DM Server if Pageable Memory use exceeds $MaxMem
-kill -processname $p -ErrorAction SilentlyContinue}
-write-host "`n`n Dead Matter Server exceeded set Max Memory Use or the server was shut down, restarting...`n" -ForegroundColor Red
+while (Get-Process $p -EA SilentlyContinue) 
+{
+$wshell = New-Object -ComObject wscript.shell;
+$wshell.AppActivate($dmserverexe) | out-null
+Start-Sleep -Seconds 1 
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.SendKeys]::SendWait('^C');
+write-host "`n`n Dead Matter Server exceeded set Max Memory Use, restarting. `n Waiting 20 seconds for the server to shutdown gracefully..." -ForegroundColor Red
+$shutdown = "m"
+Start-Sleep -Seconds 20
+if(Get-Process $p -EA SilentlyContinue){write-host "`n Server is still running, waiting an additional 20 seconds..." -ForegroundColor Red
+start-sleep -Seconds 20
+}
+if(Get-Process $p -EA SilentlyContinue){write-host "`n Server did not shutdown gracefully, sending kill command..." -ForegroundColor Red
+kill -processname $p -EA SilentlyContinue
+start-sleep -Seconds 1
+}
+start-sleep -Seconds 1
+}}
+if($shutdown -eq "m"){write-host "`n`n Dead Matter Server successfully shutdown, restarting...`n" -ForegroundColor Green
 start-sleep -s 2
 Select-String -Path "$DMDediPath\deadmatter\Saved\Logs\deadmatter.log" -Pattern 'LogCore'-AllMatches | Foreach {$_.Line}
 write-host "`n`n Server closed at: $(Get-Date)`n" -ForeGroundColor White
 start-sleep -s 5
+}else{
+write-host "`n`n Dead Matter Server was shut down or crashed, restarting...`n" -ForegroundColor Red
+start-sleep -s 2
+Select-String -Path "$DMDediPath\deadmatter\Saved\Logs\deadmatter.log" -Pattern 'LogCore'-AllMatches | Foreach {$_.Line}
+write-host "`n`n Server closed at: $(Get-Date)`n" -ForeGroundColor White
+start-sleep -s 5
+}
 }
